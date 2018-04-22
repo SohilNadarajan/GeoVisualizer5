@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Database
 {
     public static ArrayList<LatLongLocation> stateByGV;
-    public static HashMap<String, String> stateByRace;
-    public static HashMap<String, Double> stateByPoverty;
-    public static HashMap<LatLongLocation, Integer> stateBySuicide;
+    public static LinkedHashMap<String, String> stateByRace;
+    public static LinkedHashMap<String, Double> stateByPoverty;
+    public static LinkedHashMap<LatLongLocation, Integer> stateBySuicide;
 
     
     public Database()
@@ -29,17 +30,17 @@ public class Database
         
         Parser translator = new Parser();
         stateByGV = new ArrayList<LatLongLocation>();
-        stateByPoverty = new HashMap<String, Double>();
-        stateByRace= new HashMap<String, String>();
-        stateBySuicide = new HashMap<LatLongLocation, Integer>();
+        stateByPoverty = new LinkedHashMap<String, Double>();
+        stateByRace= new LinkedHashMap<String, String>();
+        stateBySuicide = new LinkedHashMap<LatLongLocation, Integer>();
 
 
-        for (int i = 1; i < stateByGVData.size(); i++)
-        {
-            LatLongLocation m = translator.parseGVLocations(stateByGVData.get(i));
-            stateByGV.add(m);
-            System.out.println(m);
-        }
+//        for (int i = 1; i < stateByGVData.size(); i++)
+//        {
+//            LatLongLocation m = translator.parseGVLocations(stateByGVData.get(i));
+//            stateByGV.add(m);
+//            System.out.println(m);
+//        }
         
         for (int i = 2; i < stateByRaceData.size(); i++)
         {
@@ -93,7 +94,7 @@ public class Database
                 //stateByPoverty.put(data.get(0).replace(".", ""), Double.parseDouble(data.get(1)));
         }
      
-        System.out.println(stateByRace.get("\"California\""));
+        //System.out.println(stateByRace);
         
         
         

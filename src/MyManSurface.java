@@ -1,8 +1,12 @@
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
+import de.fhpotsdam.unfolding.data.GeoJSONReader;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.Marker;
@@ -16,7 +20,10 @@ public class MyManSurface extends PApplet
 
     UnfoldingMap map;
     ArrayList<Marker> GVmarkers;
+    List<Marker> statesMarkers;
     Database db;
+    private boolean loadDB = false;
+    private Button gunviolenceButton, raceButton;
 
     public void settings()
     {
@@ -35,11 +42,66 @@ public class MyManSurface extends PApplet
         map.setPanningRestriction(theLoc, 0f);
         map.setZoomRange(4f, 25f);
         // map.setTweening(true);
+        
         MapUtils.createDefaultEventDispatcher(this, map);
+        List<Feature> states = GeoJSONReader.loadData(this, "us-states.json");
+        statesMarkers = MapUtils.createSimpleMarkers(states);
+        
+        for (Marker m : statesMarkers)
+            m.setColor(color(255, 255, 255, 0));
+            
+        
+        
+        map.addMarkers(statesMarkers);
         
         loadDB();
         
+        int buttonHeight = 35;
+        gunviolenceButton = new Button("Gun Violence", Button.RECTANGLE, 1000, 20, 150, buttonHeight);
+        raceButton = new Button("Racial Majorities", Button.RECTANGLE, 1000, gunviolenceButton.getY() + buttonHeight + 5, 150, buttonHeight);
 
+    }
+    
+    public void mouseMoved()
+    {
+        for (Marker marker : map.getMarkers())
+        {
+            marker.setSelected(false);
+        }
+        Marker marker = map.getFirstHitMarker(mouseX, mouseY);
+        if (marker != null)
+        {
+            marker.setSelected(true);
+        }
+    }
+    
+    public void displayRaceData()
+    {
+        Collection<String> raceVal = db.stateByRace.values();
+        ArrayList<String> race = new ArrayList<String>();
+        int i = 0;
+        
+        for (String value : raceVal)
+        {
+            race.add(value);
+        }
+        
+        System.out.println(race);
+        
+        for (Marker m : statesMarkers)
+        {
+            if (i > 50)
+                break;
+            switch (race.get(i))
+            {
+            case "White" : m.setColor(color(0, 255, 0, 100));
+            }
+                
+            
+            i++;
+        }
+        
+        loadDB = false;
     }
 
     public void draw()
@@ -50,7 +112,6 @@ public class MyManSurface extends PApplet
         
         int zoomLevel = map.getZoomLevel();
 
-//        System.out.println(map.getWidth() + "   level: " + zoomLevel);
         if (zoomLevel == 4)
             map.setPanningRestriction(theLoc, 0f);
         else
@@ -60,30 +121,22 @@ public class MyManSurface extends PApplet
         Location mouseCoordinates = map.getLocation(mouseX, mouseY);
         fill(100);
         text(mouseCoordinates.getLat() + ", " + mouseCoordinates.getLon(), mouseX, mouseY);
-
-//        if (GVmarkers.getDistanceTo(map.getLocation(mouseX, mouseY)) < 2)
-//        {
-//
-//            Rectangle infoBox = new Rectangle(10, 10, 20, 20);
-//            infoBox.setFillColor(new Color(255, 0, 0));
-//            infoBox.draw(this);
-//            text(GVmarkers.getProperties().toString(), 10f, 30f);
-//
-//        }
-
-        // /*
-
         
-
-
-        // */
-
+        if (loadDB)
+        {
+            displayRaceData();
+        }
+        
+        gunviolenceButton.draw(this);
+        raceButton.draw(this);
     }
     
     public void loadDB()
     {
         new Thread()
         {
+            
+
             public void run()
             {
                 db = new Database();
@@ -100,11 +153,22 @@ public class MyManSurface extends PApplet
                     GVmarkers.add(m);
                     map.addMarker(m);
                 }
+                
+                loadDB = true;
             }
         }.start();
         
     }
-
+    
+    public void mousePressed() {
+        if (gunviolenceButton.isPointInside(mouseX, mouseY)) {
+        //displayGunViolenceData();
+        }
+        if (raceButton.isPointInside(mouseX, mouseY)) {
+            displayRaceData();
+        }
+    }
+    
     public static void main(String[] args)
     {
 
