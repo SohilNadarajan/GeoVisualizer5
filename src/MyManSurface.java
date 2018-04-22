@@ -242,9 +242,9 @@ public class MyManSurface extends PApplet
         else
             map.setPanningRestriction(theLoc, (float) (1200 * (Math.pow(2, (zoomLevel - 4)))));
 
-        Location mouseCoordinates = map.getLocation(mouseX, mouseY);
-        fill(100);
-        text(mouseCoordinates.getLat() + ", " + mouseCoordinates.getLon(), mouseX, mouseY);
+//        Location mouseCoordinates = map.getLocation(mouseX, mouseY);
+//        fill(100);
+//        text(mouseCoordinates.getLat() + ", " + mouseCoordinates.getLon(), mouseX, mouseY);
 
         if (loadDB)
         {
