@@ -22,7 +22,7 @@ public class MyManSurface extends PApplet
     ArrayList<Marker> GVmarkers;
     List<Marker> statesMarkers;
     Database db;
-    private boolean loadDB = false;
+    private boolean loadDB = false, toggleRaceData = false;
     private Button gunviolenceButton, raceButton;
 
     public void settings()
@@ -62,20 +62,7 @@ public class MyManSurface extends PApplet
 
     }
     
-    public void mouseMoved()
-    {
-        for (Marker marker : map.getMarkers())
-        {
-            marker.setSelected(false);
-        }
-        Marker marker = map.getFirstHitMarker(mouseX, mouseY);
-        if (marker != null)
-        {
-            marker.setSelected(true);
-        }
-    }
-    
-    public void displayRaceData()
+    public void displayRaceData(boolean toggle)
     {
         Collection<String> raceVal = db.stateByRace.values();
         ArrayList<String> race = new ArrayList<String>();
@@ -88,20 +75,33 @@ public class MyManSurface extends PApplet
         
         System.out.println(race);
         
-        for (Marker m : statesMarkers)
-        {
-            if (i > 50)
-                break;
-            switch (race.get(i))
-            {
-            case "White" : m.setColor(color(0, 255, 0, 100));
-            }
-                
-            
-            i++;
+        if (toggle) {
+        		for (Marker m : statesMarkers)
+        		{
+        			if (i > 50)
+        				break;
+        			if (race.get(i).equals("White")) {
+        				m.setColor(color(0, 255, 0, 100));
+        			} else if (race.get(i).equals("Asian")) {
+        				m.setColor(color(0, 250, 154, 100));
+        			} else if (race.get(i).equals("Hispanic"))	{
+        				m.setColor(color(85, 107, 47, 100));
+        			} else if (race.get(i).equals("Black")) {
+        				m.setColor(color(0, 100, 0, 100));
+        			}
+
+
+        			i++;
+        		}
+        } else {
+        		for (Marker m : statesMarkers)
+        		{
+        			m.setColor(color(255, 255, 255, 0));
+        			
+        		}
         }
         
-        loadDB = false;
+//        loadDB = false;
     }
 
     public void draw()
@@ -124,7 +124,7 @@ public class MyManSurface extends PApplet
         
         if (loadDB)
         {
-            displayRaceData();
+            displayRaceData(toggleRaceData);
         }
         
         gunviolenceButton.draw(this);
@@ -160,12 +160,17 @@ public class MyManSurface extends PApplet
         
     }
     
+    public void toggleRaceData() {
+    		toggleRaceData = !toggleRaceData;
+    }
+    
     public void mousePressed() {
         if (gunviolenceButton.isPointInside(mouseX, mouseY)) {
         //displayGunViolenceData();
         }
         if (raceButton.isPointInside(mouseX, mouseY)) {
-            displayRaceData();
+//            displayRaceData();
+        		toggleRaceData();
         }
     }
     
