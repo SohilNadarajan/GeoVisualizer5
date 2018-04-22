@@ -37,20 +37,7 @@ public class MyManSurface extends PApplet
         // map.setTweening(true);
         MapUtils.createDefaultEventDispatcher(this, map);
         
-//        db = new Database();
-//        GVmarkers = new ArrayList<Marker>();
-//        
-//        for (LatLongLocation i : Database.stateByGV)
-//        {
-//            Location loc = new Location(i.getLatitude(), i.getLongitude());
-//            Feature GVmarkersEq = new PointFeature(loc);
-//            GVmarkersEq.addProperty("City: ", i.getCityName());
-//            Marker m = new SimplePointMarker(loc, GVmarkersEq.getProperties());
-//            m.setColor(color(255, 0, 0));
-//            m.setSelected(true);
-//            GVmarkers.add(m);
-//            map.addMarker(m);
-//        }
+        loadDB();
         
 
     }
@@ -63,7 +50,7 @@ public class MyManSurface extends PApplet
         
         int zoomLevel = map.getZoomLevel();
 
-        System.out.println(map.getWidth() + "   level: " + zoomLevel);
+//        System.out.println(map.getWidth() + "   level: " + zoomLevel);
         if (zoomLevel == 4)
             map.setPanningRestriction(theLoc, 0f);
         else
@@ -91,6 +78,31 @@ public class MyManSurface extends PApplet
 
         // */
 
+    }
+    
+    public void loadDB()
+    {
+        new Thread()
+        {
+            public void run()
+            {
+                db = new Database();
+                GVmarkers = new ArrayList<Marker>();
+                
+                for (LatLongLocation i : Database.stateByGV)
+                {
+                    Location loc = new Location(i.getLatitude(), i.getLongitude());
+                    Feature GVmarkersEq = new PointFeature(loc);
+                    GVmarkersEq.addProperty("City: ", i.getCityName());
+                    Marker m = new SimplePointMarker(loc, GVmarkersEq.getProperties());
+                    m.setColor(color(255, 0, 0));
+                    m.setSelected(true);
+                    GVmarkers.add(m);
+                    map.addMarker(m);
+                }
+            }
+        }.start();
+        
     }
 
     public static void main(String[] args)
