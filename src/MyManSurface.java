@@ -267,6 +267,17 @@ public class MyManSurface extends PApplet
             }
         }
         
+        if (!loadDB)
+        {
+            pushStyle();
+            pushMatrix();
+
+            fill(0, 0, 0);
+            text("Data still parsing... Please wait.", 130, 720);
+            popStyle();
+            popMatrix();
+        }
+        
         // for (Marker m : GVmarkers) {
         // if (m.getDistanceTo(map.getLocation(mouseX, mouseY)) < 10) {
         Marker m = map.getFirstHitMarker(mouseX, mouseY);
@@ -281,6 +292,8 @@ public class MyManSurface extends PApplet
             fill(0);
             text(m.getProperties().toString(), 205, 625);
         }
+        
+
 
         // }
         // }
