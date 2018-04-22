@@ -6,7 +6,7 @@ public class Parser
             "American Indian/Alaska Native","Native Hawaiian/Other Pacific Islander",
             "Two Or More Races","Total"};
     
-    private ArrayList<String> getLinePieces(String line)
+    public ArrayList<String> getLinePieces(String line)
     {
         ArrayList<String> pieces = new ArrayList<String>();
         boolean quoted = false;
