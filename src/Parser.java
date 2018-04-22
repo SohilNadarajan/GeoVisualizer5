@@ -99,6 +99,42 @@ public class Parser
         return RaceKey[index];
        
     }
+
+    public String[] parseSData(String line)
+    {
+        ArrayList<String> data = getLinePieces(line);
+        String[] result = new String[2];
+        
+        String parse = data.get(1);
+        int start = "\"Entity[\"\"AdministrativeDivision\"\", {\"\"".length();
+
+        parse = parse.substring(start);
+        int end = parse.indexOf("\"\",");
+
+        parse = parse.substring(0, end);
+        
+        result[0] = parse;
+        
+        parse = data.get(2);
+        
+        start = "\"TemporalData[TimeSeries, {{{Quantity[".length();
+        
+        parse = parse.substring(start);
+        end = parse.indexOf(", \"\"People\"\"");
+        
+       
+
+        if (end != -1 && !parse.startsWith("\"NotAvailable\"\"]"))
+        {
+            parse = parse.substring(0, end);
+            result[1] = parse;
+        }
+    
+        System.out.println(result[1]);
+        
+        return result;
+    }
+    
     
 
     
