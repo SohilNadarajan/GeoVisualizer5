@@ -29,10 +29,10 @@ public class Parser
         return pieces;
     }
     
-    public Location parseGVLocations(String line)
+    public LatLongLocation parseGVLocations(String line)
     {
         ArrayList<String> data = getLinePieces(line);
-        Location loc = new Location();
+        LatLongLocation loc = new LatLongLocation();
         
         String cityName = data.get(1);
         String lat = data.get(2);
@@ -47,7 +47,7 @@ public class Parser
         }
         else
         {
-            Location temp = WolframAlphaAPIHandler.getResults(data.get(1));
+            LatLongLocation temp = WolframAlphaAPIHandler.getResults(data.get(1));
             loc.setLatitude(temp.getLatitude());
             loc.setLongitude(temp.getLongitude());
         }

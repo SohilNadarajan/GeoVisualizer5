@@ -11,11 +11,11 @@ public class WolframAlphaAPIHandler
 
     private static String appid = "HURWW4-8W2GT5H3GR";
 
-    public static Location getResults(String args)
+    public static LatLongLocation getResults(String args)
     {
 
         String input = args + "coordinates";
-        Location loc = new Location();
+        LatLongLocation loc = new LatLongLocation();
 
         WAEngine engine = new WAEngine();
 
@@ -56,8 +56,8 @@ public class WolframAlphaAPIHandler
                                     if (element instanceof WAPlainText)
                                     {
                                         String[] latlong = (((WAPlainText) element).getText()).split(",");
-                                        loc.setLatitude(Location.dmsToDecimal(latlong[0]));
-                                        loc.setLongitude(Location.dmsToDecimal(latlong[1]));
+                                        loc.setLatitude(LatLongLocation.dmsToDecimal(latlong[0]));
+                                        loc.setLongitude(LatLongLocation.dmsToDecimal(latlong[1]));
                                     }
                                 }
                             }

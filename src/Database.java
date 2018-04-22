@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 public class Database
 {
-    public static ArrayList<Location> stateByGV;
+    public static ArrayList<LatLongLocation> stateByGV;
     public static HashMap<String, String> stateByRace;
     public static HashMap<String, Double> stateByPoverty;
-    public static HashMap<Location, Integer> stateBySuicide;
+    public static HashMap<LatLongLocation, Integer> stateBySuicide;
 
     
-    public static void main(String[] args)
+    public Database()
     {
      
         ArrayList<String> stateByGVData = FileIO.readFile("datasets//GunViolence.csv");
@@ -28,18 +28,18 @@ public class Database
                 
         
         Parser translator = new Parser();
-        stateByGV = new ArrayList<Location>();
+        stateByGV = new ArrayList<LatLongLocation>();
         stateByPoverty = new HashMap<String, Double>();
         stateByRace= new HashMap<String, String>();
-        stateBySuicide = new HashMap<Location, Integer>();
+        stateBySuicide = new HashMap<LatLongLocation, Integer>();
 
 
-//        for (int i = 1; i < stateByGVData.size(); i++)
-//        {
-//            Location m = translator.parseGVLocations(stateByGVData.get(i));
-//            stateByGV.add(m);
-//            System.out.println(m);
-//        }
+        for (int i = 1; i < stateByGVData.size(); i++)
+        {
+            LatLongLocation m = translator.parseGVLocations(stateByGVData.get(i));
+            stateByGV.add(m);
+            System.out.println(m);
+        }
         
         for (int i = 2; i < stateByRaceData.size(); i++)
         {
@@ -72,7 +72,7 @@ public class Database
                 }
             }
                 
-            Location loc = new Location();
+            LatLongLocation loc = new LatLongLocation();
             
             if (!place.equals("\"MessageTemplate\"\" :> Interpreter::semantictype, \"\"MessageParameters\"\" -> <|\"\"Type\"\" -> \"\"administrative division\r\n"))
             {

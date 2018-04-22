@@ -1,18 +1,18 @@
 
-public class Location
+public class LatLongLocation
 {
     private double latitude, longitude;
     private String cityName;
     
     
-    public Location(double latitude, double longitude, String cityName)
+    public LatLongLocation(double latitude, double longitude, String cityName)
     {
         this.latitude = latitude;
         this.longitude = longitude;
         this.cityName = cityName;
     }
     
-    public Location()
+    public LatLongLocation()
     {
         this.latitude = 0.0;
         this.longitude = 0.0;
