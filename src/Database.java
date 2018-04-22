@@ -19,13 +19,9 @@ public class Database
         ArrayList<String> stateByPovertyData = FileIO.readFile("datasets//Poverty.csv");
         ArrayList<String> stateBySuicideData = FileIO.readFile("datasets//Suicide.csv");
         ArrayList<String> locations = FileIO.readFile("datasets//LatLong.csv");
+        ArrayList<String> places = FileIO.readFile("datasets//Places.csv");
         
-        ArrayList<String> places = new ArrayList<String>();
         
-        for (int i = 0; i < locations.size(); i++)
-        {
-            places.add(locations.get(0));
-        }
                 
         
         Parser translator = new Parser();
@@ -35,12 +31,12 @@ public class Database
         stateBySuicide = new LinkedHashMap<LatLongLocation, Integer>();
 
 
-//        for (int i = 1; i < stateByGVData.size(); i++)
-//        {
-//            LatLongLocation m = translator.parseGVLocations(stateByGVData.get(i));
-//            stateByGV.add(m);
-//            System.out.println(m);
-//        }
+        for (int i = 1; i < stateByGVData.size(); i++)
+        {
+            LatLongLocation m = translator.parseGVLocations(stateByGVData.get(i));
+            stateByGV.add(m);
+            System.out.println(m);
+        }
         
         for (int i = 2; i < stateByRaceData.size(); i++)
         {
@@ -77,11 +73,11 @@ public class Database
             
             if (!place.equals("\"MessageTemplate\"\" :> Interpreter::semantictype, \"\"MessageParameters\"\" -> <|\"\"Type\"\" -> \"\"administrative division\r\n"))
             {
-                int index = Collections.binarySearch(places, place);
+                int index = Collections.binarySearch(places, place + " County");
                 
                 if (index >= 0)
                 {
-                    String[] data = locations.get(index).split(",");
+                    String[] data = locations.get(index + 1).split(",");
                     
                     loc.setCityName(data[0]);
                     loc.setLatitude(Double.parseDouble(data[1]));
@@ -91,10 +87,12 @@ public class Database
                 
                 stateBySuicide.put(loc, numSuc);
             }
+            
+            System.out.println(i);
                 //stateByPoverty.put(data.get(0).replace(".", ""), Double.parseDouble(data.get(1)));
         }
      
-        //System.out.println(stateByRace);
+        
         
         
         

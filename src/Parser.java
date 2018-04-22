@@ -45,12 +45,12 @@ public class Parser
             loc.setLatitude(Double.parseDouble(lat));
             loc.setLongitude(Double.parseDouble(lon));
         }
-        else
-        {
-            LatLongLocation temp = WolframAlphaAPIHandler.getResults(data.get(1));
-            loc.setLatitude(temp.getLatitude());
-            loc.setLongitude(temp.getLongitude());
-        }
+//        else
+//        {
+//            LatLongLocation temp = WolframAlphaAPIHandler.getResults(data.get(1));
+//            loc.setLatitude(temp.getLatitude());
+//            loc.setLongitude(temp.getLongitude());
+//        }
         
         return loc;
     }
