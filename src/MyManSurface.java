@@ -23,9 +23,10 @@ public class MyManSurface extends PApplet
     List<Marker> GVmarkers;
     List<Marker> SMarkers;
     List<Marker> statesMarkers;
+    List<Marker> povertyMarkers;
     Database db;
     private boolean loadDB = false, toggleRaceData = false;
-    private Button gunviolenceButton, raceButton, SButton, USViewButton, alaskaViewButton, hawaiiViewButton;
+    private Button gunviolenceButton, raceButton, SButton, PovButton, USViewButton, alaskaViewButton, hawaiiViewButton;
     private boolean toggleGVData = false, toggleSData = false;
     private boolean added = false;
     private Location theLoc;
@@ -65,7 +66,9 @@ public class MyManSurface extends PApplet
                 gunviolenceButton.getY() + buttonHeight + 5, 150, buttonHeight);
         SButton = new Button("Suicides", Button.RECTANGLE, 1000,
                 raceButton.getY() + buttonHeight + 5, 150, buttonHeight);
-        
+        PovButton = new Button("Poverty Percentage", Button.RECTANGLE, 1000,
+                SButton.getY() + buttonHeight + 5, 150, buttonHeight);
+                
         
         int buttonWidth = 25;
         USViewButton = new Button("US", Button.CIRCLE, 20, 15, buttonWidth, buttonWidth);
@@ -189,6 +192,43 @@ public class MyManSurface extends PApplet
 
        //marker.popStyle();
     }
+    
+//    public void displayPovData(boolean toggle)
+//    {
+//        //marker.pushStyle();
+//        
+//        if (toggle)
+//        {
+//           
+//
+//
+//            for (Marker m : SMarkers)
+//            {
+//                m.setSelected(true);
+//                m.setHidden(false);
+//                
+//                ScreenPosition screenPos = map.getScreenPosition(m.getLocation());
+//                //((SimplePointMarker) m).getScreenPosition(map);
+////                marker.strokeWeight(16);
+////                marker.stroke(67, 211, 227, 100);
+//                double radius = (Integer)(m.getProperties().get("Num Deaths: ")) / 2.;
+//                marker.fill(67, 211, 227, 100);
+//                marker.ellipse(screenPos.x, screenPos.y, (float)radius, (float)radius);
+//                
+//            }
+//        }
+//        else
+//        {
+//            for (Marker m : SMarkers)
+//            {
+//                m.setHidden(true);
+//                m.setSelected(false);
+//
+//            }
+//        }
+//
+//       //marker.popStyle();
+//    }
 
     public void draw()
     {

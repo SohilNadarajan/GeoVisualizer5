@@ -94,7 +94,8 @@ public class Parser
             
         }
         
-        System.out.println(max);
+        
+        
 
         return RaceKey[index];
        
@@ -130,7 +131,7 @@ public class Parser
             result[1] = parse;
         }
     
-        System.out.println(result[1]);
+        
         
         return result;
     }

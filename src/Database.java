@@ -20,9 +20,8 @@ public class Database
         ArrayList<String> stateBySuicideData = FileIO.readFile("datasets//Suicide.csv");
         ArrayList<String> locations = FileIO.readFile("datasets//LatLong.csv");
         ArrayList<String> places = FileIO.readFile("datasets//Places.csv");
-        
-        
-                
+                        
+        Collections.sort(places);
         
         Parser translator = new Parser();
         stateByGV = new ArrayList<LatLongLocation>();
@@ -35,7 +34,8 @@ public class Database
         {
             LatLongLocation m = translator.parseGVLocations(stateByGVData.get(i));
             stateByGV.add(m);
-            System.out.println(m);
+            
+            
         }
         
         for (int i = 2; i < stateByRaceData.size(); i++)
@@ -88,7 +88,8 @@ public class Database
                 stateBySuicide.put(loc, numSuc);
             }
             
-            System.out.println(i);
+            if (loc.getLatitude() == 0.0)
+                System.out.println(place);
                 //stateByPoverty.put(data.get(0).replace(".", ""), Double.parseDouble(data.get(1)));
         }
      

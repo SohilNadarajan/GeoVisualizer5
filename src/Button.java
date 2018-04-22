@@ -60,11 +60,14 @@ public class Button
         if (buttonShape == CIRCLE)
         {
             double centerX = this.x + width / 2, centerY = this.y + height / 2;
-            if ((Math.pow((x - centerX), 2) / Math.pow((width / 2), 2)) 
-            + (Math.pow((y - centerY), 2) / Math.pow((height / 2), 2)) <= 1) {
-            return true;
-            } else {
-            return false;
+            if ((Math.pow((x - centerX), 2) / Math.pow((width / 2), 2))
+                    + (Math.pow((y - centerY), 2) / Math.pow((height / 2), 2)) <= 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
