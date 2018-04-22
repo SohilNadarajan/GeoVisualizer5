@@ -88,9 +88,7 @@ public class Database
                 stateBySuicide.put(loc, numSuc);
             }
             
-            if (loc.getLatitude() == 0.0)
-                System.out.println(place);
-                //stateByPoverty.put(data.get(0).replace(".", ""), Double.parseDouble(data.get(1)));
+           
         }
      
         

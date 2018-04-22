@@ -14,6 +14,7 @@ import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import de.fhpotsdam.unfolding.utils.ScreenPosition;
+import maxim.shapes.Rectangle;
 import processing.core.PApplet;
 
 public class MyManSurface extends PApplet
@@ -27,10 +28,10 @@ public class MyManSurface extends PApplet
     Database db;
     private boolean loadDB = false, toggleRaceData = false;
     private Button gunviolenceButton, raceButton, SButton, PovButton, USViewButton, alaskaViewButton, hawaiiViewButton;
-    private boolean toggleGVData = false, toggleSData = false;
+    private boolean toggleGVData = false, toggleSData = false, togglePovData = false;
     private boolean added = false;
     private Location theLoc;
-    
+
     public void settings()
     {
 
@@ -62,20 +63,25 @@ public class MyManSurface extends PApplet
 
         int buttonHeight = 35;
         gunviolenceButton = new Button("Gun Violence", Button.RECTANGLE, 1000, 20, 150, buttonHeight);
+        gunviolenceButton.setColor(new Color(255, 0, 0));
         raceButton = new Button("Racial Majorities", Button.RECTANGLE, 1000,
                 gunviolenceButton.getY() + buttonHeight + 5, 150, buttonHeight);
-        SButton = new Button("Suicides", Button.RECTANGLE, 1000,
-                raceButton.getY() + buttonHeight + 5, 150, buttonHeight);
-        PovButton = new Button("Poverty Percentage", Button.RECTANGLE, 1000,
-                SButton.getY() + buttonHeight + 5, 150, buttonHeight);
-                
-        
+        raceButton.setColor(new Color(34, 139, 34));
+        SButton = new Button("Suicides", Button.RECTANGLE, 1000, raceButton.getY() + buttonHeight + 5, 150,
+                buttonHeight);
+        SButton.setColor(new Color(67, 211, 227));
+        PovButton = new Button("Poverty Percentage", Button.RECTANGLE, 1000, SButton.getY() + buttonHeight + 5, 150,
+                buttonHeight);
+        PovButton.setColor(new Color(255, 150, 0));
+
         int buttonWidth = 25;
         USViewButton = new Button("US", Button.CIRCLE, 20, 15, buttonWidth, buttonWidth);
         USViewButton.setColor(new Color(255, 69, 0));
-        alaskaViewButton = new Button("AL", Button.CIRCLE, USViewButton.getX() + buttonWidth + 10, 15, buttonWidth, buttonWidth);
+        alaskaViewButton = new Button("AL", Button.CIRCLE, USViewButton.getX() + buttonWidth + 10, 15, buttonWidth,
+                buttonWidth);
         alaskaViewButton.setColor(new Color(255, 69, 0));
-        hawaiiViewButton = new Button("HI", Button.CIRCLE, alaskaViewButton.getX() + buttonWidth + 10, 15, buttonWidth, buttonWidth);
+        hawaiiViewButton = new Button("HI", Button.CIRCLE, alaskaViewButton.getX() + buttonWidth + 10, 15, buttonWidth,
+                buttonWidth);
         hawaiiViewButton.setColor(new Color(255, 69, 0));
     }
 
@@ -89,7 +95,6 @@ public class MyManSurface extends PApplet
         {
             race.add(value);
         }
-
 
         if (toggle)
         {
@@ -128,14 +133,13 @@ public class MyManSurface extends PApplet
 
         // loadDB = false;
     }
-    
+
     public void displayGVData(boolean toggle)
     {
-        
+
         if (toggle)
         {
-           
-            
+
             for (Marker m : GVmarkers)
             {
                 m.setSelected(true);
@@ -153,31 +157,28 @@ public class MyManSurface extends PApplet
             }
         }
 
-       
     }
-    
+
     public void displaySData(boolean toggle, PApplet marker)
     {
-        //marker.pushStyle();
-        
+        // marker.pushStyle();
+
         if (toggle)
         {
-           
-
 
             for (Marker m : SMarkers)
             {
                 m.setSelected(true);
                 m.setHidden(false);
-                
+
                 ScreenPosition screenPos = map.getScreenPosition(m.getLocation());
-                //((SimplePointMarker) m).getScreenPosition(map);
-//                marker.strokeWeight(16);
-//                marker.stroke(67, 211, 227, 100);
-                double radius = (Integer)(m.getProperties().get("Num Deaths: ")) / 2.;
+                // ((SimplePointMarker) m).getScreenPosition(map);
+                // marker.strokeWeight(16);
+                // marker.stroke(67, 211, 227, 100);
+                double radius = (Integer) (m.getProperties().get("Num Deaths: ")) / 2.;
                 marker.fill(67, 211, 227, 100);
-                marker.ellipse(screenPos.x, screenPos.y, (float)radius, (float)radius);
-                
+                marker.ellipse(screenPos.x, screenPos.y, (float) radius, (float) radius);
+
             }
         }
         else
@@ -190,50 +191,48 @@ public class MyManSurface extends PApplet
             }
         }
 
-       //marker.popStyle();
+        // marker.popStyle();
     }
-    
-//    public void displayPovData(boolean toggle)
-//    {
-//        //marker.pushStyle();
-//        
-//        if (toggle)
-//        {
-//           
-//
-//
-//            for (Marker m : SMarkers)
-//            {
-//                m.setSelected(true);
-//                m.setHidden(false);
-//                
-//                ScreenPosition screenPos = map.getScreenPosition(m.getLocation());
-//                //((SimplePointMarker) m).getScreenPosition(map);
-////                marker.strokeWeight(16);
-////                marker.stroke(67, 211, 227, 100);
-//                double radius = (Integer)(m.getProperties().get("Num Deaths: ")) / 2.;
-//                marker.fill(67, 211, 227, 100);
-//                marker.ellipse(screenPos.x, screenPos.y, (float)radius, (float)radius);
-//                
-//            }
-//        }
-//        else
-//        {
-//            for (Marker m : SMarkers)
-//            {
-//                m.setHidden(true);
-//                m.setSelected(false);
-//
-//            }
-//        }
-//
-//       //marker.popStyle();
-//    }
+
+    private void displayPovData(boolean toggle)
+    {
+        Collection<Double> povVal = db.stateByPoverty.values();
+        ArrayList<Double> pov = new ArrayList<Double>();
+        int i = 0;
+
+        for (Double value : povVal)
+        {
+            pov.add(value);
+        }
+
+        if (toggle)
+        {
+            for (Marker m : statesMarkers)
+            {
+                if (i > 50)
+                    break;
+                
+                double percent = pov.get(i);
+                System.out.println(percent);
+                m.setColor(color(255, (int)(percent * 11), 0, 100));
+
+                i++;
+            }
+        }
+        else
+        {
+            for (Marker m : statesMarkers)
+            {
+                m.setColor(color(255, 255, 255, 0));
+
+            }
+        }
+        
+    }
 
     public void draw()
     {
 
-        
         map.draw();
 
         int zoomLevel = map.getZoomLevel();
@@ -249,28 +248,53 @@ public class MyManSurface extends PApplet
 
         if (loadDB)
         {
-            displayRaceData(toggleRaceData);
+            
+            if (!togglePovData)
+                displayRaceData(toggleRaceData);
+
             displayGVData(toggleGVData);
             displaySData(toggleSData, this);
+            
+            if (!toggleRaceData)
+                displayPovData(togglePovData);
+            
             
             if (!added)
             {
                 map.addMarkers(GVmarkers);
-                
-                //map.addMarkers(SMarkers);
+                //map.addMarkers(povertyMarkers);
                 added = true;
             }
         }
         
-        
+        // for (Marker m : GVmarkers) {
+        // if (m.getDistanceTo(map.getLocation(mouseX, mouseY)) < 10) {
+        Marker m = map.getFirstHitMarker(mouseX, mouseY);
+        if (m != null)
+        {
+            Rectangle infoBox = new Rectangle(200, 600, 400, 100);
+            infoBox.setFillColor(new Color(245, 245, 220));
+            infoBox.setStrokeColor(new Color(162, 82, 45));
+            infoBox.draw(this);
+            textSize(15);
+            textAlign(LEFT, CENTER);
+            fill(0);
+            text(m.getProperties().toString(), 205, 625);
+        }
+
+        // }
+        // }
 
         gunviolenceButton.draw(this);
         raceButton.draw(this);
         SButton.draw(this);
+        PovButton.draw(this);
         USViewButton.draw(this);
         alaskaViewButton.draw(this);
         hawaiiViewButton.draw(this);
     }
+
+
 
     public void loadDB()
     {
@@ -292,10 +316,9 @@ public class MyManSurface extends PApplet
                     m.setColor(color(255, 0, 0));
                     m.setSelected(false);
                     GVmarkers.add(m);
-                    
-                    
+
                 }
-                
+
                 for (LatLongLocation i : Database.stateBySuicide.keySet())
                 {
                     Location loc = new Location(i.getLatitude(), i.getLongitude());
@@ -306,20 +329,14 @@ public class MyManSurface extends PApplet
                     m.setColor(color(0, 0, 255));
                     m.setSelected(false);
                     SMarkers.add(m);
+
                     
-                    //
                 }
-                
-                
+
                 loadDB = true;
             }
         }.start();
 
-    }
-
-    public void toggleRaceData()
-    {
-        toggleRaceData = !toggleRaceData;
     }
 
     public void mousePressed()
@@ -338,33 +355,56 @@ public class MyManSurface extends PApplet
         if (SButton.isPointInside(mouseX, mouseY))
         {
             // displayRaceData();'
-            
+
             toggleSData();
         }
-        if (USViewButton.isPointInside(mouseX, mouseY)) {
+        if (PovButton.isPointInside(mouseX, mouseY))
+        {
+            // displayRaceData();'
+
+            togglePovData();
+        }
+        if (USViewButton.isPointInside(mouseX, mouseY))
+        {
             theLoc.set(30.576576f, -76.85618f);
             map.zoomAndPanTo(4, new Location(30.576576f, -76.85618f));
-            }
-            if (alaskaViewButton.isPointInside(mouseX, mouseY)) {
+        }
+        if (alaskaViewButton.isPointInside(mouseX, mouseY))
+        {
             theLoc.set(60.22629f, -127.87768f);
             map.zoomAndPanTo(4, new Location(60.22629f, -127.87768f));
-            }
-            if (hawaiiViewButton.isPointInside(mouseX, mouseY)) {
+        }
+        if (hawaiiViewButton.isPointInside(mouseX, mouseY))
+        {
             theLoc.set(20.75624f, -157.38574f);
             map.zoomAndPanTo(8, new Location(20.75624f, -157.38574f));
-            }
+        }
+    }
+    
+
+    public void toggleRaceData()
+    {
+        if (!togglePovData)
+            toggleRaceData = !toggleRaceData;
+    }
+
+    private void togglePovData()
+    {
+        if (!toggleRaceData)
+            togglePovData = !togglePovData;
+
     }
 
     private void toggleSData()
     {
-        toggleSData  = !toggleSData;
-        
+        toggleSData = !toggleSData;
+
     }
 
     private void toggleGVData()
     {
-        toggleGVData  = !toggleGVData;
-        
+        toggleGVData = !toggleGVData;
+
     }
 
     public static void main(String[] args)
